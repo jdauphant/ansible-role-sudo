@@ -18,11 +18,12 @@
   file: path=/etc/sudoers.d owner=root group=root mode=0750 state=directory
   tags: ["configuration","sudo"]
 
-- name: ensure configure of sudoers base file
-  template: src=sudoers.j2 dest=/etc/sudoers mode=0440 owner=root group=root validate='/usr/sbin/visudo -cf %s'
-  tags: ["configuration","sudo"]
-
 - name: ensure configuration of additionals sudoers file
   template: src=additional.j2 dest=/etc/sudoers.d/{{item.name}} mode=0440 owner=root group=root validate='/usr/sbin/visudo -cf %s'
   with_items: sudo_files
   tags: ["configuration","sudo"]
+
+- name: ensure configure of sudoers base file
+  template: src=sudoers.j2 dest=/etc/sudoers mode=0440 owner=root group=root validate='/usr/sbin/visudo -cf %s'
+  tags: ["configuration","sudo"]
+
